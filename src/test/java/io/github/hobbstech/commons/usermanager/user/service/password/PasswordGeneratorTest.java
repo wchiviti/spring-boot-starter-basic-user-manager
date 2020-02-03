@@ -11,7 +11,7 @@ public class PasswordGeneratorTest {
     }
 
     private void generatePassword(){
-        val rawPassword = "admin";
+        val rawPassword = "%$Pass123";
         val encrypted = new BCryptPasswordEncoder().encode(rawPassword);
         System.out.println(String.format("---> Encrypted password : %s", encrypted));
     }

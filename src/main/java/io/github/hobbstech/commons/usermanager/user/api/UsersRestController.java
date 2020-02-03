@@ -78,7 +78,7 @@ public class UsersRestController {
         return userReaderService.findById(userId);
     }
 
-    @GetMapping("/v1/v")
+    @GetMapping("/v1/users")
     @ApiOperation("Get All Paginated Users")
     public Page<User> getAllPaginatedUsers(
             @RequestParam(value = "sort", required = false, defaultValue = "username") String sort,
