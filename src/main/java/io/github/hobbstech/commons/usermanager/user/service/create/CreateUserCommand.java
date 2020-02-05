@@ -1,5 +1,6 @@
 package io.github.hobbstech.commons.usermanager.user.service.create;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.hobbstech.commons.usermanager.user.model.Gender;
 import lombok.Data;
 
@@ -43,6 +44,7 @@ public class CreateUserCommand {
 
     private String driverLicenseNumber;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "en_ZW", timezone = "Africa/Harare")
     private Date dateOfBirth;
 
 }

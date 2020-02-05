@@ -2,7 +2,7 @@ package io.github.hobbstech.commons.usermanager.accesscontrol.userauthorities.se
 
 import io.github.hobbstech.commons.utilities.exceptions.InvalidRequestException;
 import io.github.hobbstech.commons.utilities.exceptions.RecordNotFoundException;
-import io.github.hobbstech.commons.utilities.service.BaseServiceImpl;
+import io.github.hobbstech.commons.utilities.service.DomainServiceImpl;
 import io.github.hobbstech.commons.usermanager.accesscontrol.authorities.dao.AuthorityDao;
 import io.github.hobbstech.commons.usermanager.accesscontrol.userauthorities.dao.UserAuthorityDao;
 import io.github.hobbstech.commons.usermanager.accesscontrol.userauthorities.model.UserAuthority;
@@ -18,7 +18,7 @@ import static io.github.hobbstech.commons.utilities.validations.Validations.vali
 
 @Service
 @Transactional
-public class UserAuthorityService extends BaseServiceImpl<UserAuthority, CreateUserAuthorityCommand,
+public class UserAuthorityService extends DomainServiceImpl<UserAuthority, CreateUserAuthorityCommand,
         UserAuthority> {
 
     private final AuthorityDao authorityDao;

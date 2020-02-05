@@ -1,10 +1,10 @@
 package io.github.hobbstech.commons.usermanager.user.service.events;
 
-import io.github.hobbstech.commons.utilities.util.SystemProperties;
 import io.github.hobbstech.commons.notifications.service.EmailMessageNotifierTemplate;
 import io.github.hobbstech.commons.notifications.service.EmailSender;
 import io.github.hobbstech.commons.notifications.service.EmailUserImpl;
 import lombok.val;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +14,11 @@ import java.util.HashMap;
 public class NewUserEventEmailSendingListener extends EmailMessageNotifierTemplate
         implements ApplicationListener<NewUserEvent> {
 
-    private final SystemProperties systemProperties;
+    @Value("${system.name}")
+    private String systemName;
 
-    public NewUserEventEmailSendingListener(EmailSender emailSender, SystemProperties systemProperties) {
+    public NewUserEventEmailSendingListener(EmailSender emailSender) {
         super(emailSender);
-        this.systemProperties = systemProperties;
     }
 
     @Override
@@ -26,11 +26,11 @@ public class NewUserEventEmailSendingListener extends EmailMessageNotifierTempla
 
         val user = newUserEvent.getUser();
 
-        subject = "User account for " + systemProperties.systemName + " created successfully";
+        subject = "User account for " + systemName + " created successfully";
 
         recipients.add(new EmailUserImpl(user.getUsername(), user.getEmail()));
 
-        emailMessageFormatter.addParagraph("Your account was created for " + systemProperties.systemName + ". The " +
+        emailMessageFormatter.addParagraph("Your account was created for " + systemName + ". The " +
                 "account credentials that you use to sign in are as follows:");
 
         val table = new HashMap<String, String>();

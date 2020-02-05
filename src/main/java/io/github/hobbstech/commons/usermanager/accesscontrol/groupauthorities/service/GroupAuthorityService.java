@@ -2,7 +2,7 @@ package io.github.hobbstech.commons.usermanager.accesscontrol.groupauthorities.s
 
 import io.github.hobbstech.commons.utilities.exceptions.InvalidRequestException;
 import io.github.hobbstech.commons.utilities.exceptions.RecordNotFoundException;
-import io.github.hobbstech.commons.utilities.service.BaseServiceImpl;
+import io.github.hobbstech.commons.utilities.service.DomainServiceImpl;
 import io.github.hobbstech.commons.usermanager.accesscontrol.authorities.dao.AuthorityDao;
 import io.github.hobbstech.commons.usermanager.accesscontrol.groupauthorities.dao.GroupAuthorityDao;
 import io.github.hobbstech.commons.usermanager.accesscontrol.groupauthorities.model.GroupAuthority;
@@ -18,7 +18,7 @@ import static io.github.hobbstech.commons.utilities.validations.Validations.vali
 
 @Service
 @Transactional
-public class GroupAuthorityService extends BaseServiceImpl<GroupAuthority, CreateGroupAuthorityCommand,
+public class GroupAuthorityService extends DomainServiceImpl<GroupAuthority, CreateGroupAuthorityCommand,
         GroupAuthority> {
 
     private final AuthorityDao authorityDao;

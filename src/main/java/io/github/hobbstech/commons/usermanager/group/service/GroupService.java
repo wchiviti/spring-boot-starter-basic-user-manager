@@ -1,7 +1,7 @@
 package io.github.hobbstech.commons.usermanager.group.service;
 
 import io.github.hobbstech.commons.utilities.exceptions.InvalidRequestException;
-import io.github.hobbstech.commons.utilities.service.BaseServiceImpl;
+import io.github.hobbstech.commons.utilities.service.DomainServiceImpl;
 import io.github.hobbstech.commons.usermanager.group.dao.GroupDao;
 import io.github.hobbstech.commons.usermanager.group.model.Group;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import static io.github.hobbstech.commons.utilities.validations.Validations.vali
 @Service
 @Transactional
 @Slf4j
-public class GroupService extends BaseServiceImpl<Group, CreateGroupCommand, UpdateGroupCommand> {
+public class GroupService extends DomainServiceImpl<Group, CreateGroupCommand, UpdateGroupCommand> {
 
     private final GroupDao groupDao;
 
