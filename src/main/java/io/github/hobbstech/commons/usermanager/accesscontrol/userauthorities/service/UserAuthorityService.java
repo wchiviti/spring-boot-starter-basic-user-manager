@@ -1,18 +1,21 @@
 package io.github.hobbstech.commons.usermanager.accesscontrol.userauthorities.service;
 
+import io.github.hobbstech.commons.usermanager.accesscontrol.userauthorities.model.UserAuthority;
 import io.github.hobbstech.commons.utilities.exceptions.InvalidRequestException;
 import io.github.hobbstech.commons.utilities.exceptions.RecordNotFoundException;
 import io.github.hobbstech.commons.utilities.service.DomainServiceImpl;
 import io.github.hobbstech.commons.usermanager.accesscontrol.authorities.dao.AuthorityDao;
 import io.github.hobbstech.commons.usermanager.accesscontrol.userauthorities.dao.UserAuthorityDao;
-import io.github.hobbstech.commons.usermanager.accesscontrol.userauthorities.model.UserAuthority;
 import io.github.hobbstech.commons.usermanager.user.dao.UserDao;
 import lombok.val;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import static io.github.hobbstech.commons.utilities.validations.Validations.validate;
 
@@ -77,5 +80,49 @@ public class UserAuthorityService extends DomainServiceImpl<UserAuthority, Creat
     @Override
     protected Class<UserAuthority> getEntityClass() {
         return UserAuthority.class;
+    }
+
+
+    public Collection<UserAuthority> createAuthorities(CreateUserAuthorityCommand createUserAuthorityCommand) {
+
+        validate(createUserAuthorityCommand);
+
+        val user = userDao.findById(createUserAuthorityCommand.getUserId())
+                .orElseThrow(() -> new RecordNotFoundException("User record was not found"));
+
+        val userAuthorities = new HashSet<UserAuthority>();
+
+        createUserAuthorityCommand.getAuthorityIds().forEach(id -> {
+
+            val authority = authorityDao.findById(createUserAuthorityCommand.getAuthorityId())
+                    .orElseThrow(() -> new RecordNotFoundException("Authority record was not found for id " + id));
+
+            if (!userAuthorityDao.existsByAuthorityAndUser(authority, user)) {
+                return;
+            }
+
+            val userAuthority = new UserAuthority();
+
+            userAuthority.setAuthority(authority);
+
+            userAuthority.setUser(user);
+
+            val persistedUserAuthority = userAuthorityDao.save(userAuthority);
+
+            userAuthorities.add(persistedUserAuthority);
+
+        });
+
+        return userAuthorities;
+
+    }
+
+    public Page<UserAuthority> findByUser(long userId, Pageable pageable) {
+        return userAuthorityDao.findByUser_Id(userId, pageable);
+    }
+
+    public void delete(Collection<Long> userAuthorityIds) {
+        val authoritiesToBeDeleted = userAuthorityDao.findAllById(userAuthorityIds);
+        userAuthorityDao.deleteAll(authoritiesToBeDeleted);
     }
 }

@@ -10,6 +10,9 @@ import io.github.hobbstech.commons.usermanager.accesscontrol.userauthorities.ser
 import io.github.hobbstech.commons.usermanager.accesscontrol.userauthorities.service.UserAuthorityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -39,8 +42,20 @@ public class AccessControlRestController {
         return authoritiesReaderService.findAll();
     }
 
+    @GetMapping("/authorities")
+    @ApiOperation("Get All system Authorities Paged")
+    public Page<Authority> getAllAuthorities(@PageableDefault Pageable pageable, @RequestParam(required = false) String search) {
+        return authoritiesReaderService.findAll(pageable, search);
+    }
+
     @GetMapping("/group-authorities/by-group/{groupId}")
-    @ApiOperation("Get All system Authorities")
+    @ApiOperation("Get All Group Authorities Paged")
+    public Page<GroupAuthority> getAllGroupAuthorities(@PathVariable long groupId, @PageableDefault Pageable pageable) {
+        return groupAuthorityService.findByGroup(groupId, pageable);
+    }
+
+    @GetMapping("/group-authorities/by-group/{groupId}/all")
+    @ApiOperation("Get All Group Authorities")
     public Collection<GroupAuthority> getAllGroupAuthorities(@PathVariable long groupId) {
         return groupAuthorityService.findByGroup(groupId);
     }
@@ -52,10 +67,30 @@ public class AccessControlRestController {
         return groupAuthorityService.create(createGroupAuthorityCommand);
     }
 
-    @GetMapping("/user-authorities/by-user/{userId}")
+    @PostMapping("/group-authorities/bundled")
+    @ApiOperation("Create Group Authorities")
+    public Collection<GroupAuthority> createGroupAuthorities(
+            @RequestBody CreateGroupAuthorityCommand createGroupAuthorityCommand) {
+        return groupAuthorityService.createAuthorities(createGroupAuthorityCommand);
+    }
+
+    @PatchMapping("/group-authorities/bundled")
+    @ApiOperation("Remove Group Authorities")
+    public void removeGroupAuthorities(
+            @RequestBody Collection<Long> groupAuthorityIds) {
+        groupAuthorityService.delete(groupAuthorityIds);
+    }
+
+    @GetMapping("/user-authorities/by-user/{userId}/all")
     @ApiOperation("Get All system Authorities")
     public Collection<UserAuthority> getAllUserAuthorities(@PathVariable long userId) {
         return userAuthorityService.findByUser(userId);
+    }
+
+    @GetMapping("/user-authorities/by-user/{userId}")
+    @ApiOperation("Get All system Authorities")
+    public Page<UserAuthority> getAllUserAuthorities(@PathVariable long userId, @PageableDefault Pageable pageable) {
+        return userAuthorityService.findByUser(userId, pageable);
     }
 
     @PostMapping("/user-authorities")
@@ -63,6 +98,20 @@ public class AccessControlRestController {
     public UserAuthority createUserAuthority(
             @RequestBody CreateUserAuthorityCommand createUserAuthorityCommand) {
         return userAuthorityService.create(createUserAuthorityCommand);
+    }
+
+    @PostMapping("/user-authorities/bundled")
+    @ApiOperation("Create User Authority")
+    public Collection<UserAuthority> createUserAuthorities(
+            @RequestBody CreateUserAuthorityCommand createUserAuthorityCommand) {
+        return userAuthorityService.createAuthorities(createUserAuthorityCommand);
+    }
+
+    @PatchMapping("/user-authorities/bundled")
+    @ApiOperation("Remove User Authorities")
+    public void removeUserAuthorities(
+            @RequestBody Collection<Long> userAuthorityIds) {
+        userAuthorityService.delete(userAuthorityIds);
     }
 
 }

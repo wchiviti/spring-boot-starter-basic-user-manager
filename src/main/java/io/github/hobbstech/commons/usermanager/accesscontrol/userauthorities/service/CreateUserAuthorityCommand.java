@@ -2,11 +2,15 @@ package io.github.hobbstech.commons.usermanager.accesscontrol.userauthorities.se
 
 import lombok.Data;
 
+import java.util.Collection;
+
 @Data
 public class CreateUserAuthorityCommand {
 
     private long userId;
 
     private long authorityId;
+
+    private Collection<Long> authorityIds;
 
 }

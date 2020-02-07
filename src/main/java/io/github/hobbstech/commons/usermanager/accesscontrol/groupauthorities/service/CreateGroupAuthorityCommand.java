@@ -2,10 +2,14 @@ package io.github.hobbstech.commons.usermanager.accesscontrol.groupauthorities.s
 
 import lombok.Data;
 
+import java.util.Collection;
+
 @Data
 public class CreateGroupAuthorityCommand {
 
-    private long groupId;
+    private Collection<Long> authorityIds;
+
+    private Long groupId;
 
     private long authorityId;
 
