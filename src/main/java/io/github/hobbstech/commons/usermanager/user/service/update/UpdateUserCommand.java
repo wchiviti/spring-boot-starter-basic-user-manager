@@ -1,5 +1,6 @@
 package io.github.hobbstech.commons.usermanager.user.service.update;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.hobbstech.commons.usermanager.user.model.Gender;
 import lombok.Data;
@@ -41,6 +42,7 @@ public class UpdateUserCommand {
 
     private String driverLicenseNumber;
 
+    @JsonFormat(pattern = "MM/dd/yyyy", shape = JsonFormat.Shape.STRING, locale = "en_ZW", timezone = "Africa/Harare")
     private Date dateOfBirth;
 
     private String phoneNumber;
