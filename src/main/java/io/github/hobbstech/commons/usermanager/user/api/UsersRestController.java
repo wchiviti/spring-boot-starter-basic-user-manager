@@ -92,5 +92,12 @@ public class UsersRestController {
 
     }
 
+    @GetMapping("/v1/users/profile")
+    @ApiOperation("Get User Profile")
+    public User getProfile(Principal principal) {
+        return userReaderService.findUser(0, principal.getName(), null);
+    }
+
+
 
 }
