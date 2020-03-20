@@ -49,6 +49,4 @@ public class UpdateUserCommand {
 
     private String nationality;
 
-    private long groupId;
-
 }
