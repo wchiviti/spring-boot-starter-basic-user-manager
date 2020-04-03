@@ -94,10 +94,10 @@ public class UserAuthorityService extends DomainServiceImpl<UserAuthority, Creat
 
         createUserAuthorityCommand.getAuthorityIds().forEach(id -> {
 
-            val authority = authorityDao.findById(createUserAuthorityCommand.getAuthorityId())
+            val authority = authorityDao.findById(id)
                     .orElseThrow(() -> new RecordNotFoundException("Authority record was not found for id " + id));
 
-            if (!userAuthorityDao.existsByAuthorityAndUser(authority, user)) {
+            if (userAuthorityDao.existsByAuthorityAndUser(authority, user)) {
                 return;
             }
 

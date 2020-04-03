@@ -1,5 +1,6 @@
 package io.github.hobbstech.commons.usermanager.user.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.hobbstech.commons.utilities.jpa.BaseEntity;
 import io.github.hobbstech.commons.usermanager.group.model.Group;
@@ -65,6 +66,7 @@ public class User extends BaseEntity implements UserDetails {
     private String driverLicenseNumber;
 
     @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Africa/Harare", locale = "en_ZW")
     private Date dateOfBirth;
 
     private String nationality;

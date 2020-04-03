@@ -97,10 +97,10 @@ public class GroupAuthorityService extends DomainServiceImpl<GroupAuthority, Cre
 
         createGroupAuthorityCommand.getAuthorityIds().forEach(id -> {
 
-            val authority = authorityDao.findById(createGroupAuthorityCommand.getAuthorityId())
+            val authority = authorityDao.findById(id)
                     .orElseThrow(() -> new RecordNotFoundException("Authority record was not found for id " + id));
 
-            if (!groupAuthorityDao.existsByAuthorityAndGroup(authority, group)) {
+            if (groupAuthorityDao.existsByAuthorityAndGroup(authority, group)) {
                 return;
             }
 
