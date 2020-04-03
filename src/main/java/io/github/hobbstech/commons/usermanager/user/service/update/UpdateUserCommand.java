@@ -42,7 +42,7 @@ public class UpdateUserCommand {
 
     private String driverLicenseNumber;
 
-    @JsonFormat(pattern = "MM/dd/yyyy", shape = JsonFormat.Shape.STRING, locale = "en_ZW", timezone = "Africa/Harare")
+    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING, locale = "en_ZW", timezone = "Africa/Harare")
     private Date dateOfBirth;
 
     private String phoneNumber;
